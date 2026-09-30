@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Freelance Marketplace - Class Diagram</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+        }
+        .mermaid {
+            text-align: center;
+        }
+        .legend {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #007bff;
+        }
+        .legend h3 {
+            margin-top: 0;
+            color: #007bff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏗️ Freelance Marketplace - Class Diagram</h1>
+        
+        <div class="mermaid">
+            classDiagram
+                class User {
+                    +String id
+                    +String email
+                    +String? clerkId
+                    +DateTime createdAt
+                    +DateTime updatedAt
+                    +Boolean active
+                    +String? address
+                    +String? bankAccount
+                    +String? firstName
+                    +String? lastName
+                    +String? login
+                    +String? password
+                    +String? phoneNumber
+                    +String? vat
+                    +String? companyName
+                    +String? cryptoWalletAddress
+                    +Decimal? dailyRate
+                    +String? description
+                    +String? preferredPaymentMethod
+                    +String? picture
+                    +String? roleId
+                }
+                
+                class Portfolio {
+                    +String id
+                    +String? name
+                    +String? description
+                    +DateTime createdAt
+                    +DateTime updatedAt
+                    +String userId
+                }
+                
+                class Project {
+                    +String id
+                    +String name
+                    +String? description
+                    +String? url
+                    +String[] picture
+                    +DateTime createdAt
+                    +DateTime updatedAt
+                    +String portfolioId
+                }
+                
+                class Mission {
+                    +String id
+                    +Decimal dailyRate
+                    +Int timeframe
+                    +String description
+                    +String clientId
+                    +DateTime createdAt
+                    +DateTime updatedAt
+                    +DateTime? endDate
+                    +DateTime? startDate
+                    +DateTime? timezone
+                    +String status
+                    +String title
+                    +Boolean isVerified
+                    +DateTime? deadline
+                    +DateTime? gracePeriodEnd
+                    +String? verifierId
+                }
+                
+                class Contract {
+                    +String id
+                    +String contractTerms
+                    +DateTime startDate
+                    +DateTime endDate
+                    +Boolean isActive
+                    +String missionId
+                    +DateTime createdAt
+                    +DateTime updatedAt
+                    +Decimal dailyRate
+                    +String adminId
+                    +String freelancerId
+                }
+                
+                class Offer {
+                    +String id
+                    +String status
+                    +Decimal dailyRate
+                    +String proposalText
+                    +DateTime startDate
+                    +DateTime endDate
+                    +DateTime createdAt
+                    +DateTime updatedAt
+                    +String freelancerId
+                    +String missionId
+                    +DateTime? seenByFreelancerAt
+                }
+                
+                class Payment {
+                    +String id
+                    +Decimal amount
+                    +String paymentMethod
+                    +DateTime transactionDate
+                    +String missionId
+                    +DateTime createdAt
+                    +DateTime updatedAt
+                    +String status
+                    +String userId
+                    +Decimal? conversionRate
+                    +Decimal? cryptoAmount
+                    +String? cryptoCurrency
+                    +String? cryptoTransactionHash
+                    +String? cryptoWalletAddress
+                    +String? currencyId
+                }
+                
+                class Review {
+                    +String id
+                    +String content
+                    +Int rating
+                    +DateTime createdAt
+                    +DateTime updatedAt
+                    +String reviewerId
+                    +String receiverId
+                    +String? missionId
+                }
+                
+                class Skill {
+                    +String id
+                    +String name
+                    +DateTime createdAt
+                    +DateTime updatedAt
+                    +String? createdById
+                }
+                
+                class Category {
+                    +String categoryId
+                    +String name
+                    +String? description
+                    +DateTime createdAt
+                    +DateTime updatedAt
+                    +String? createdById
+                }
+                
+                class Conflict {
+                    +String id
+                    +String status
+                    +String motive
+                    +DateTime startDate
+                    +DateTime? endDate
+                    +DateTime createdAt
+                    +DateTime updatedAt
+                    +String contractId
+                    +String? assignedAdminId
+                    +String reporterId
+                }
+                
+                class Conversation {
+                    +String id
+                    +DateTime createdAt
+                    +DateTime updatedAt
+                    +String? missionId
+                    +String? conflictId
+                }
+                
+                class Message {
+                    +String id
+                    +String content
+                    +DateTime createdAt
+                    +DateTime updatedAt
+                    +String senderId
+                    +String conversationId
+                    +Boolean isRead
+                    +String? replyToId
+                    +String messageId
+                    +String status
+                }
+                
+                class Role {
+                    +String id
+                    +String name
+                    +String? description
+                    +DateTime createdAt
+                    +DateTime updatedAt
+                }
+                
+                class Currency {
+                    +String id
+                    +String name
+                    +String code
+                    +String type
+                    +DateTime createdAt
+                    +DateTime updatedAt
+                }
+                
+                %% Relationships
+                User "1" --> "0..1" Portfolio : has
+                Portfolio "1" --> "*" Project : contains
+                User "1" --> "*" Mission : creates
+                User "1" --> "*" Offer : submits
+                User "1" --> "*" Payment : receives
+                User "1" --> "*" Review : gives
+                User "1" --> "*" Review : receives
+                User "1" --> "*" Contract : freelancer
+                User "1" --> "*" Contract : admin
+                User "1" --> "*" Conflict : assignedAdmin
+                User "1" --> "*" Conflict : report
+                User "1" --> "*" Message : sends
+                User "0..1" --> "*" Category : create
+                User "0..1" --> "*" Skill : create
+                User "*" --> "*" Skill : has
+                User "1" --> "1" Role : has
+                
+                Mission "1" --> "*" Offer : receives
+                Mission "1" --> "1" Contract : has
+                Mission "1" --> "*" Payment : generates
+                Mission "1" --> "*" Review : receives
+                Mission "1" --> "*" Skill : requires
+                Mission "1" --> "*" Category : belongsTo
+                Mission "1" --> "1" User : client
+                Mission "1" --> "1" User : verifier
+                
+                Contract "1" --> "*" Conflict : generates
+                Contract "1" --> "*" Payment : generates
+                Contract "1" --> "*" Offer : accepts
+                
+                Offer "1" --> "1" Contract : becomes
+                Offer "1" --> "*" Payment : generates
+                
+                Payment "1" --> "1" Currency : uses
+                
+                Skill "*" --> "*" Category : belongsTo
+                
+                Conflict "1" --> "*" Conversation : has
+                
+                Conversation "1" --> "*" Message : contains
+                
+                Message "1" --> "*" Message : repliesTo
+        </div>
+        
+        <div class="legend">
+            <h3>📋 Class Diagram Legend</h3>
+            <p><strong>Note:</strong> This diagram represents the database schema models. All relationships and attributes match the Prisma schema.</p>
+            <ul>
+                <li><strong>+</strong> indicates public attributes</li>
+                <li><strong>?</strong> indicates optional/nullable fields</li>
+                <li><strong>[]</strong> indicates array types</li>
+                <li>Relationships show cardinality (1, *)</li>
+            </ul>
+            <p style="margin-top: 15px;"><strong>📸 User.picture:</strong> Synced from Clerk's <code>imageUrl</code> via webhook. Stores the user's profile picture URL for caching and database queries.</p>
+        </div>
+    </div>
+
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'default',
+            classDiagram: {
+                useMaxWidth: true,
+                htmlLabels: true
+            }
+        });
+    </script>
+</body>
+</html>
+

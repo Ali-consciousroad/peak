@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Freelance Marketplace - Use Case Diagram</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+        }
+        .mermaid {
+            text-align: center;
+        }
+        .legend {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #007bff;
+        }
+        .legend h3 {
+            margin-top: 0;
+            color: #007bff;
+        }
+        .legend-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .color-box {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+        .feature-list {
+            margin-top: 20px;
+            padding: 20px;
+            background: #e8f5e8;
+            border-radius: 8px;
+            border-left: 4px solid #28a745;
+        }
+        .feature-list h3 {
+            margin-top: 0;
+            color: #28a745;
+        }
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 15px;
+        }
+        .feature-card {
+            background: white;
+            padding: 15px;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+        }
+        .feature-card h4 {
+            margin-top: 0;
+            color: #333;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 5px;
+        }
+        .feature-card ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        .feature-card li {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎯 Freelance Marketplace - Use Case Diagram</h1>
+        
+        <div class="mermaid">
+            graph TB
+                %% Actors
+                Client((👤 Client))
+                Freelancer((👨‍💻 Freelancer))
+                Admin((🔧 Admin))
+                Support((🛟 Support))
+                System((💻 System))
+                
+                %% Client Use Cases
+                subgraph "Client Use Cases"
+                    UC1[📝 Create Mission]
+                    UC2[👀 Browse Freelancers]
+                    UC3[📋 View Contracts]
+                    UC4[💰 Manage Payments]
+                    UC5[✏️ Edit Mission]
+                    UC6[🗑️ Delete Mission]
+                    UC7[📊 View Mission Status]
+                    UC8[💬 Send Messages]
+                    UC9[⭐ Leave Reviews]
+                    UC10[📱 Update Profile]
+                end
+                
+                %% Freelancer Use Cases
+                subgraph "Freelancer Use Cases"
+                    UC11[🔍 Browse Missions]
+                    UC12[📄 Create Portfolio]
+                    UC13[🛠️ Manage Services]
+                    UC14[🎯 Manage Skills]
+                    UC15[📝 Submit Offers]
+                    UC16[📋 View Contracts]
+                    UC17[💬 Send Messages]
+                    UC18[⭐ Leave Reviews]
+                    UC19[📱 Update Profile]
+                    UC20[💰 View Earnings]
+                end
+                
+                %% Admin Use Cases
+                subgraph "Admin Use Cases"
+                    UC21[👥 Manage Users]
+                    UC22[📊 View Analytics]
+                    UC23[🔧 System Settings]
+                    UC24[📋 Manage All Contracts]
+                    UC25[🚨 Handle Conflicts]
+                    UC26[💰 Payment Oversight]
+                    UC27[📝 Content Moderation]
+                    UC28[🔐 Role Management]
+                end
+                
+                %% Support Use Cases
+                subgraph "Support Use Cases"
+                    UC29[🆘 Handle Disputes]
+                    UC30[📞 User Assistance]
+                    UC31[📋 Contract Support]
+                    UC32[🚨 Conflict Resolution]
+                    UC33[📧 Ticket Management]
+                    UC34[📊 View Reports]
+                end
+                
+                %% System Use Cases
+                subgraph "System Use Cases"
+                    UC35[🔐 Authentication]
+                    UC36[📧 Email Notifications]
+                    UC37[💳 Payment Processing]
+                    UC38[📊 Data Analytics]
+                    UC39[🔍 Search & Filter]
+                    UC40[📱 Real-time Updates]
+                end
+                
+                %% Client Relationships
+                Client --> UC1
+                Client --> UC2
+                Client --> UC3
+                Client --> UC4
+                Client --> UC5
+                Client --> UC6
+                Client --> UC7
+                Client --> UC8
+                Client --> UC9
+                Client --> UC10
+                
+                %% Freelancer Relationships
+                Freelancer --> UC11
+                Freelancer --> UC12
+                Freelancer --> UC13
+                Freelancer --> UC14
+                Freelancer --> UC15
+                Freelancer --> UC16
+                Freelancer --> UC17
+                Freelancer --> UC18
+                Freelancer --> UC19
+                Freelancer --> UC20
+                
+                %% Admin Relationships
+                Admin --> UC21
+                Admin --> UC22
+                Admin --> UC23
+                Admin --> UC24
+                Admin --> UC25
+                Admin --> UC26
+                Admin --> UC27
+                Admin --> UC28
+                
+                %% Support Relationships
+                Support --> UC29
+                Support --> UC30
+                Support --> UC31
+                Support --> UC32
+                Support --> UC33
+                Support --> UC34
+                
+                %% System Relationships (all actors interact with system)
+                Client --> UC35
+                Freelancer --> UC35
+                Admin --> UC35
+                Support --> UC35
+                
+                Client --> UC36
+                Freelancer --> UC36
+                Admin --> UC36
+                Support --> UC36
+                
+                Client --> UC37
+                Freelancer --> UC37
+                Admin --> UC37
+                
+                Admin --> UC38
+                Support --> UC38
+                
+                Client --> UC39
+                Freelancer --> UC39
+                Admin --> UC39
+                Support --> UC39
+                
+                Client --> UC40
+                Freelancer --> UC40
+                Admin --> UC40
+                Support --> UC40
+                
+                %% Cross-actor relationships
+                UC1 -.-> UC11
+                UC15 -.-> UC3
+                UC8 -.-> UC17
+                UC9 -.-> UC18
+                UC25 -.-> UC29
+                UC32 -.-> UC25
+                
+                %% Styling
+                classDef client fill:#e3f2fd,stroke:#1976d2,stroke-width:2px
+                classDef freelancer fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px
+                classDef admin fill:#e8f5e8,stroke:#388e3c,stroke-width:2px
+                classDef support fill:#fff3e0,stroke:#f57c00,stroke-width:2px
+                classDef system fill:#ffebee,stroke:#d32f2f,stroke-width:2px
+                
+                class Client client
+                class Freelancer freelancer
+                class Admin admin
+                class Support support
+                class System system
+                
+                class UC1,UC2,UC3,UC4,UC5,UC6,UC7,UC8,UC9,UC10 client
+                class UC11,UC12,UC13,UC14,UC15,UC16,UC17,UC18,UC19,UC20 freelancer
+                class UC21,UC22,UC23,UC24,UC25,UC26,UC27,UC28 admin
+                class UC29,UC30,UC31,UC32,UC33,UC34 support
+                class UC35,UC36,UC37,UC38,UC39,UC40 system
+        </div>
+        
+        <div class="legend">
+            <h3>👥 Actor Legend</h3>
+            <div class="legend-grid">
+                <div class="legend-item">
+                    <div class="color-box" style="background-color: #e3f2fd;"></div>
+                    <span><strong>Client:</strong> Companies/individuals posting missions</span>
+                </div>
+                <div class="legend-item">
+                    <div class="color-box" style="background-color: #f3e5f5;"></div>
+                    <span><strong>Freelancer:</strong> Independent professionals offering services</span>
+                </div>
+                <div class="legend-item">
+                    <div class="color-box" style="background-color: #e8f5e8;"></div>
+                    <span><strong>Admin:</strong> Platform administrators with full access</span>
+                </div>
+                <div class="legend-item">
+                    <div class="color-box" style="background-color: #fff3e0;"></div>
+                    <span><strong>Support:</strong> Customer service and dispute resolution</span>
+                </div>
+                <div class="legend-item">
+                    <div class="color-box" style="background-color: #ffebee;"></div>
+                    <span><strong>System:</strong> Automated platform functionality</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="feature-list">
+            <h3>🚀 Key Features by User Role</h3>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h4>👤 Client Features</h4>
+                    <ul>
+                        <li>Post missions with detailed requirements</li>
+                        <li>Browse freelancer profiles and portfolios</li>
+                        <li>Manage contracts and payment processing</li>
+                        <li>Review freelancer performance</li>
+                        <li>Real-time project status tracking</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-card">
+                    <h4>👨‍💻 Freelancer Features</h4>
+                    <ul>
+                        <li>Browse available missions and opportunities</li>
+                        <li>Create professional portfolios</li>
+                        <li>Manage services and skill profiles</li>
+                        <li>Submit competitive offers</li>
+                        <li>Track earnings and contract status</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-card">
+                    <h4>🔧 Admin Features</h4>
+                    <ul>
+                        <li>Complete user and role management</li>
+                        <li>System analytics and reporting</li>
+                        <li>Content moderation and oversight</li>
+                        <li>Payment and conflict resolution</li>
+                        <li>Platform configuration and settings</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-card">
+                    <h4>🛟 Support Features</h4>
+                    <ul>
+                        <li>Handle user disputes and conflicts</li>
+                        <li>Provide customer assistance</li>
+                        <li>Contract and payment support</li>
+                        <li>Ticket management system</li>
+                        <li>Generate support reports</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="legend">
+            <h3>🔗 System Interactions</h3>
+            <ul>
+                <li><strong>Authentication:</strong> All users authenticate via Clerk</li>
+                <li><strong>Real-time Communication:</strong> Messaging between clients and freelancers</li>
+                <li><strong>Payment Processing:</strong> Secure payment handling for all transactions</li>
+                <li><strong>Notification System:</strong> Email and in-app notifications</li>
+                <li><strong>Search & Filter:</strong> Advanced search capabilities across missions and profiles</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'default',
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true,
+                curve: 'basis'
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>1.4 Dictionnaire des données</title>
+  <style>
+    body { font-family: Calibri, "Times New Roman", serif; font-size: 12pt; margin: 2cm; color: #000; }
+    h1 { font-size: 16pt; }
+    h2 { font-size: 13pt; margin-top: 1.4em; }
+    p { max-width: 18cm; }
+    table { border-collapse: collapse; width: 100%; margin: 0.4em 0 1.2em; page-break-inside: avoid; }
+    th, td { border: 1px solid #000; padding: 4px 8px; text-align: left; vertical-align: top; }
+    th { background: #f0f0f0; font-weight: bold; }
+    td:nth-child(1) { font-family: Consolas, monospace; width: 22%; }
+    td:nth-child(2) { font-family: Consolas, monospace; width: 18%; }
+    td:nth-child(3) { width: 8%; }
+  </style>
+</head>
+<body>
+  <h1>1.4 Dictionnaire des données</h1>
+  <p>Attributs du diagramme de classes. Types du DC (string, date, number, boolean). Null = champ obligatoire ou non. Les FK ne figurent pas ici : ce sont les associations du DC (Get, Generate, Attract…). UserId / MissionId / … = colonne `id` (sauf CategoryId = `categoryId`). WalletAddress = `cryptoWalletAddress`. Terms = `contractTerms`. Active (participant) = `isActive`.</p>
+  <h2>Table ‘User’</h2>
+  <table>
+    <tr><th>Champ</th><th>Type</th><th>Null</th><th>Description</th></tr>
+    <tr><td>UserId</td><td>string</td><td>non</td><td>identifiant unique</td></tr>
+    <tr><td>Login</td><td>string</td><td>oui</td><td>identifiant de connexion (ex. marie.dupont)</td></tr>
+    <tr><td>Password</td><td>string</td><td>oui</td><td>mot de passe (non utilisé : auth Clerk)</td></tr>
+    <tr><td>Email</td><td>string</td><td>non</td><td>adresse e-mail (ex. marie@mail.be)</td></tr>
+    <tr><td>ClerkId</td><td>string</td><td>oui</td><td>identifiant Clerk après login (ex. user_2abc…)</td></tr>
+    <tr><td>FirstName</td><td>string</td><td>oui</td><td>prénom (ex. Marie)</td></tr>
+    <tr><td>LastName</td><td>string</td><td>oui</td><td>nom (ex. Dupont)</td></tr>
+    <tr><td>Address</td><td>string</td><td>oui</td><td>adresse (ex. Rue de la Loi 16, 1000 Bruxelles)</td></tr>
+    <tr><td>PhoneNumber</td><td>string</td><td>oui</td><td>téléphone (ex. +32 470 12 34 56)</td></tr>
+    <tr><td>VAT</td><td>string</td><td>oui</td><td>numéro de TVA (ex. BE0123456789)</td></tr>
+    <tr><td>CompanyName</td><td>string</td><td>oui</td><td>nom de société (ex. Peak SPRL)</td></tr>
+    <tr><td>Description</td><td>string</td><td>oui</td><td>présentation du profil</td></tr>
+    <tr><td>Picture</td><td>string</td><td>oui</td><td>URL de la photo (ex. https://…)</td></tr>
+    <tr><td>BankAccount</td><td>string</td><td>oui</td><td>IBAN (ex. BE71 0961 2345 6769)</td></tr>
+    <tr><td>WalletAddress</td><td>string</td><td>oui</td><td>adresse wallet crypto (ex. 0x1a2b…)</td></tr>
+    <tr><td>PreferredPaymentMethod</td><td>string</td><td>oui</td><td>paiement préféré (EUR, crypto)</td></tr>
+    <tr><td>DailyRate</td><td>number</td><td>oui</td><td>tarif journalier en euros (ex. 350.00)</td></tr>
+    <tr><td>Active</td><td>boolean</td><td>non</td><td>compte actif (true, false)</td></tr>
+    <tr><td>CreatedAt</td><td>date</td><td>non</td><td>date de création</td></tr>
+    <tr><td>UpdatedAt</td><td>date</td><td>non</td><td>date de modification</td></tr>
+  </table>
+  <h2>Table ‘Role’</h2>
+  <table>
+    <tr><th>Champ</th><th>Type</th><th>Null</th><th>Description</th></tr>
+    <tr><td>RoleId</td><td>string</td><td>non</td><td>identifiant unique</td></tr>
+    <tr><td>Name</td><td>string</td><td>non</td><td>nom du rôle (client, freelance, admin)</td></tr>
+    <tr><td>Description</td><td>string</td><td>oui</td><td>courte description du rôle</td></tr>
+    <tr><td>CreatedAt</td><td>date</td><td>non</td><td>date de création</td></tr>
+    <tr><td>UpdatedAt</td><td>date</td><td>non</td><td>date de modification</td></tr>
+  </table>
+  <h2>Table ‘Mission’</h2>
+  <table>
+    <tr><th>Champ</th><th>Type</th><th>Null</th><th>Description</th></tr>
+    <tr><td>MissionId</td><td>string</td><td>non</td><td>identifiant unique</td></tr>
+    <tr><td>Title</td><td>string</td><td>non</td><td>titre (ex. Site vitrine Next.js)</td></tr>
+    <tr><td>Description</td><td>string</td><td>non</td><td>cahier des charges</td></tr>
+    <tr><td>Status</td><td>string</td><td>non</td><td>statut (OPEN, IN_PROGRESS, OVERDUE, COMPLETED, REFUNDED)</td></tr>
+    <tr><td>DailyRate</td><td>number</td><td>non</td><td>tarif journalier en euros (ex. 400.00)</td></tr>
+    <tr><td>Timeframe</td><td>number</td><td>non</td><td>durée en jours (ex. 10)</td></tr>
+    <tr><td>Timezone</td><td>date</td><td>oui</td><td>référence temporelle</td></tr>
+    <tr><td>StartDate</td><td>date</td><td>oui</td><td>date de début</td></tr>
+    <tr><td>EndDate</td><td>date</td><td>oui</td><td>date de fin</td></tr>
+    <tr><td>Deadline</td><td>date</td><td>oui</td><td>date limite de livraison</td></tr>
+    <tr><td>GracePeriodEnd</td><td>date</td><td>oui</td><td>fin du délai de grâce</td></tr>
+    <tr><td>IsVerified</td><td>boolean</td><td>non</td><td>validée par un admin (true, false)</td></tr>
+    <tr><td>CreatedAt</td><td>date</td><td>non</td><td>date de création</td></tr>
+    <tr><td>UpdatedAt</td><td>date</td><td>non</td><td>date de modification</td></tr>
+  </table>
+  <h2>Table ‘Offer’</h2>
+  <table>
+    <tr><th>Champ</th><th>Type</th><th>Null</th><th>Description</th></tr>
+    <tr><td>OfferId</td><td>string</td><td>non</td><td>identifiant unique</td></tr>
+    <tr><td>Status</td><td>string</td><td>non</td><td>statut (PENDING, ACCEPTED, REJECTED, CANCELLED)</td></tr>
+    <tr><td>DailyRate</td><td>number</td><td>non</td><td>tarif proposé en euros (ex. 380.00)</td></tr>
+    <tr><td>ProposalText</td><td>string</td><td>non</td><td>texte de la proposition</td></tr>
+    <tr><td>StartDate</td><td>date</td><td>non</td><td>début proposé</td></tr>
+    <tr><td>EndDate</td><td>date</td><td>non</td><td>fin proposée</td></tr>
+    <tr><td>SeenByFreelancerAt</td><td>date</td><td>oui</td><td>date de lecture par le freelance</td></tr>
+    <tr><td>CreatedAt</td><td>date</td><td>non</td><td>date de création</td></tr>
+    <tr><td>UpdatedAt</td><td>date</td><td>non</td><td>date de modification</td></tr>
+  </table>
+  <h2>Table ‘Contract’</h2>
+  <table>
+    <tr><th>Champ</th><th>Type</th><th>Null</th><th>Description</th></tr>
+    <tr><td>ContractId</td><td>string</td><td>non</td><td>identifiant unique</td></tr>
+    <tr><td>Terms</td><td>string</td><td>non</td><td>clauses du contrat</td></tr>
+    <tr><td>StartDate</td><td>date</td><td>non</td><td>date de début</td></tr>
+    <tr><td>EndDate</td><td>date</td><td>non</td><td>date de fin</td></tr>
+    <tr><td>IsActive</td><td>boolean</td><td>non</td><td>contrat actif (true, false)</td></tr>
+    <tr><td>DailyRate</td><td>number</td><td>non</td><td>tarif journalier contractuel (ex. 400.00)</td></tr>
+    <tr><td>SeenByClientAt</td><td>date</td><td>oui</td><td>date de lecture par le client</td></tr>
+    <tr><td>CreatedAt</td><td>date</td><td>non</td><td>date de création</td></tr>
+    <tr><td>UpdatedAt</td><td>date</td><td>non</td><td>date de modification</td></tr>
+  </table>
+  <h2>Table ‘Payment’</h2>
+  <table>
+    <tr><th>Champ</th><th>Type</th><th>Null</th><th>Description</th></tr>
+    <tr><td>PaymentId</td><td>string</td><td>non</td><td>identifiant unique</td></tr>
+    <tr><td>Status</td><td>string</td><td>non</td><td>statut (PENDING, MADE, RELEASED_1, RELEASED_2, RELEASED, COMPLETED, CANCELLED)</td></tr>
+    <tr><td>Amount</td><td>number</td><td>non</td><td>montant en euros (ex. 2000.00)</td></tr>
+    <tr><td>PaymentMethod</td><td>string</td><td>non</td><td>moyen de paiement (EUR, crypto)</td></tr>
+    <tr><td>TransactionDate</td><td>date</td><td>non</td><td>date de la transaction</td></tr>
+    <tr><td>SeenByFreelancerAt</td><td>date</td><td>oui</td><td>date de lecture par le freelance</td></tr>
+    <tr><td>ConversionRate</td><td>number</td><td>oui</td><td>taux EUR → crypto au versement (ex. 0.00042)</td></tr>
+    <tr><td>CryptoAmount</td><td>number</td><td>oui</td><td>montant crypto envoyé (ex. 0.85)</td></tr>
+    <tr><td>CryptoCurrency</td><td>string</td><td>oui</td><td>devise crypto (AVAX, BTC, ETH)</td></tr>
+    <tr><td>CryptoTransactionHash</td><td>string</td><td>oui</td><td>hash on-chain (ex. 0xabc…)</td></tr>
+    <tr><td>CryptoWalletAddress</td><td>string</td><td>oui</td><td>adresse wallet utilisée au payout</td></tr>
+    <tr><td>CreatedAt</td><td>date</td><td>non</td><td>date de création</td></tr>
+    <tr><td>UpdatedAt</td><td>date</td><td>non</td><td>date de modification</td></tr>
+  </table>
+  <h2>Table ‘Currency’</h2>
+  <table>
+    <tr><th>Champ</th><th>Type</th><th>Null</th><th>Description</th></tr>
+    <tr><td>CurrencyId</td><td>string</td><td>non</td><td>identifiant unique</td></tr>
+    <tr><td>Name</td><td>string</td><td>non</td><td>nom (Euro, Bitcoin, Ethereum)</td></tr>
+    <tr><td>Code</td><td>string</td><td>non</td><td>code (EUR, BTC, ETH, AVAX)</td></tr>
+    <tr><td>Type</td><td>string</td><td>non</td><td>nature (fiat, crypto)</td></tr>
+    <tr><td>CreatedAt</td><td>date</td><td>non</td><td>date de création</td></tr>
+    <tr><td>UpdatedAt</td><td>date</td><td>non</td><td>date de modification</td></tr>
+  </table>
+  <h2>Table ‘Conflict’</h2>
+  <table>
+    <tr><th>Champ</th><th>Type</th><th>Null</th><th>Description</th></tr>
+    <tr><td>ConflictId</td><td>string</td><td>non</td><td>identifiant unique</td></tr>
+    <tr><td>Status</td><td>string</td><td>non</td><td>statut (OPEN, IN_REVIEW, RESOLVED)</td></tr>
+    <tr><td>Motive</td><td>string</td><td>non</td><td>motif (ex. livrable incomplet)</td></tr>
+    <tr><td>StartDate</td><td>date</td><td>non</td><td>date d’ouverture</td></tr>
+    <tr><td>EndDate</td><td>date</td><td>oui</td><td>date de clôture</td></tr>
+    <tr><td>CreatedAt</td><td>date</td><td>non</td><td>date de création</td></tr>
+    <tr><td>UpdatedAt</td><td>date</td><td>non</td><td>date de modification</td></tr>
+  </table>
+  <h2>Table ‘Notification’</h2>
+  <table>
+    <tr><th>Champ</th><th>Type</th><th>Null</th><th>Description</th></tr>
+    <tr><td>NotificationId</td><td>string</td><td>non</td><td>identifiant unique</td></tr>
+    <tr><td>Type</td><td>string</td><td>non</td><td>code événement (conflict_created, payment_released)</td></tr>
+    <tr><td>Title</td><td>string</td><td>oui</td><td>titre (ex. Litige ouvert)</td></tr>
+    <tr><td>Message</td><td>string</td><td>oui</td><td>corps du message</td></tr>
+    <tr><td>ReadAt</td><td>date</td><td>oui</td><td>date de lecture (vide = non lu)</td></tr>
+    <tr><td>CreatedAt</td><td>date</td><td>non</td><td>date de création</td></tr>
+    <tr><td>UpdatedAt</td><td>date</td><td>non</td><td>date de modification</td></tr>
+  </table>
+  <h2>Table ‘Conversation’</h2>
+  <table>
+    <tr><th>Champ</th><th>Type</th><th>Null</th><th>Description</th></tr>
+    <tr><td>ConversationId</td><td>string</td><td>non</td><td>identifiant unique</td></tr>
+    <tr><td>CreatedAt</td><td>date</td><td>non</td><td>date de création</td></tr>
+    <tr><td>UpdatedAt</td><td>date</td><td>non</td><td>date de modification</td></tr>
+  </table>
+  <h2>Table ‘ConversationParticipant’</h2>
+  <table>
+    <tr><th>Champ</th><th>Type</th><th>Null</th><th>Description</th></tr>
+    <tr><td>ConversationParticipantId</td><td>string</td><td>non</td><td>identifiant unique</td></tr>
+    <tr><td>Active</td><td>boolean</td><td>non</td><td>encore dans le fil (true, false)</td></tr>
+    <tr><td>LastReadAt</td><td>date</td><td>oui</td><td>dernière lecture du fil</td></tr>
+  </table>
+  <h2>Table ‘Message’</h2>
+  <table>
+    <tr><th>Champ</th><th>Type</th><th>Null</th><th>Description</th></tr>
+    <tr><td>MessageId</td><td>string</td><td>non</td><td>identifiant métier unique</td></tr>
+    <tr><td>Content</td><td>string</td><td>non</td><td>texte du message</td></tr>
+    <tr><td>Status</td><td>string</td><td>non</td><td>statut d’envoi (sent)</td></tr>
+    <tr><td>IsRead</td><td>boolean</td><td>non</td><td>message lu (true, false)</td></tr>
+    <tr><td>CreatedAt</td><td>date</td><td>non</td><td>date de création</td></tr>
+    <tr><td>UpdatedAt</td><td>date</td><td>non</td><td>date de modification</td></tr>
+  </table>
+  <h2>Table ‘Category’</h2>
+  <table>
+    <tr><th>Champ</th><th>Type</th><th>Null</th><th>Description</th></tr>
+    <tr><td>CategoryId</td><td>string</td><td>non</td><td>identifiant unique</td></tr>
+    <tr><td>Name</td><td>string</td><td>non</td><td>nom (Web Development, Design, Rédaction)</td></tr>
+    <tr><td>Description</td><td>string</td><td>oui</td><td>courte explication de la catégorie</td></tr>
+    <tr><td>CreatedAt</td><td>date</td><td>non</td><td>date de création</td></tr>
+    <tr><td>UpdatedAt</td><td>date</td><td>non</td><td>date de modification</td></tr>
+  </table>
+  <h2>Table ‘Skill’</h2>
+  <table>
+    <tr><th>Champ</th><th>Type</th><th>Null</th><th>Description</th></tr>
+    <tr><td>SkillId</td><td>string</td><td>non</td><td>identifiant unique</td></tr>
+    <tr><td>Name</td><td>string</td><td>non</td><td>nom (React, Node.js, PostgreSQL)</td></tr>
+    <tr><td>CreatedAt</td><td>date</td><td>non</td><td>date de création</td></tr>
+    <tr><td>UpdatedAt</td><td>date</td><td>non</td><td>date de modification</td></tr>
+  </table>
+  <h2>Table ‘Portfolio’</h2>
+  <table>
+    <tr><th>Champ</th><th>Type</th><th>Null</th><th>Description</th></tr>
+    <tr><td>PortfolioId</td><td>string</td><td>non</td><td>identifiant unique</td></tr>
+    <tr><td>Name</td><td>string</td><td>oui</td><td>nom du portfolio (ex. Travaux 2025)</td></tr>
+    <tr><td>Description</td><td>string</td><td>oui</td><td>présentation du portfolio</td></tr>
+    <tr><td>CreatedAt</td><td>date</td><td>non</td><td>date de création</td></tr>
+    <tr><td>UpdatedAt</td><td>date</td><td>non</td><td>date de modification</td></tr>
+  </table>
+  <h2>Table ‘Project’</h2>
+  <table>
+    <tr><th>Champ</th><th>Type</th><th>Null</th><th>Description</th></tr>
+    <tr><td>ProjectId</td><td>string</td><td>non</td><td>identifiant unique</td></tr>
+    <tr><td>Name</td><td>string</td><td>non</td><td>nom (ex. Boutique e-commerce)</td></tr>
+    <tr><td>Description</td><td>string</td><td>oui</td><td>description du projet</td></tr>
+    <tr><td>Url</td><td>string</td><td>oui</td><td>lien (ex. https://exemple.be)</td></tr>
+    <tr><td>Picture</td><td>string</td><td>oui</td><td>URLs des images (plusieurs)</td></tr>
+    <tr><td>CreatedAt</td><td>date</td><td>non</td><td>date de création</td></tr>
+    <tr><td>UpdatedAt</td><td>date</td><td>non</td><td>date de modification</td></tr>
+  </table>
+  <h2>Table ‘Review’</h2>
+  <table>
+    <tr><th>Champ</th><th>Type</th><th>Null</th><th>Description</th></tr>
+    <tr><td>ReviewId</td><td>string</td><td>non</td><td>identifiant unique</td></tr>
+    <tr><td>Content</td><td>string</td><td>non</td><td>commentaire</td></tr>
+    <tr><td>Rating</td><td>number</td><td>non</td><td>note (1 à 5)</td></tr>
+    <tr><td>CreatedAt</td><td>date</td><td>non</td><td>date de création</td></tr>
+    <tr><td>UpdatedAt</td><td>date</td><td>non</td><td>date de modification</td></tr>
+  </table>
+</body>
+</html>

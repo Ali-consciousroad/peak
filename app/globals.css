@@ -1,0 +1,387 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&display=swap');
+
+html, body {
+  min-height: 100%;
+  height: 100%;
+  font-family: 'Sora', 'Inter', sans-serif;
+  background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+  color: #1f2937;
+}
+
+body {
+  background: linear-gradient(120deg, #f3f4f6 0%, #e5e7eb 100%);
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.dark html, .dark body {
+  background: linear-gradient(135deg, #0f2027 0%, #2c5364 100%);
+  color: #f3f4f6;
+}
+
+.dark body {
+  background: linear-gradient(120deg, #181c2f 0%, #232946 100%);
+}
+
+/* Glassmorphism card style */
+.glass-card {
+  background: rgba(255, 255, 255, 0.7);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-radius: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  max-width: 100%;
+  min-width: 0;
+}
+
+.dark .glass-card {
+  background: rgba(30, 41, 59, 0.7);
+}
+
+/* Neon accent for buttons */
+.neon-btn {
+  background: linear-gradient(90deg, #00e6ff 0%, #7f5cff 100%);
+  color: #fff;
+  border: none;
+  border-radius: 9999px;
+  box-shadow: 0 0 8px #00e6ff, 0 0 16px #7f5cff;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.neon-btn:hover {
+  box-shadow: 0 0 16px #00e6ff, 0 0 32px #7f5cff;
+  transform: translateY(-2px) scale(1.03);
+}
+
+/* For glassy nav */
+.glass-nav {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  /* Add safe area padding to prevent overlap with browser tabs */
+  padding-top: env(safe-area-inset-top, 8px);
+  min-height: calc(64px + env(safe-area-inset-top, 8px));
+}
+
+.dark .glass-nav {
+  background: rgba(24, 28, 47, 0.7);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Safe area utilities */
+.safe-area-top {
+  padding-top: env(safe-area-inset-top, 8px);
+}
+
+.pt-safe {
+  padding-top: env(safe-area-inset-top, 0px);
+}
+
+/* Comprehensive Clerk UserButton styling for proper contrast */
+/* Light mode overrides */
+:not(.dark) .cl-userButtonBox,
+:not(.dark) .cl-userButtonBox *,
+:not(.dark) .cl-userButtonBox .cl-userButtonTrigger,
+:not(.dark) .cl-userButtonBox .cl-userButtonPopoverCard,
+:not(.dark) .cl-userButtonBox .cl-userButtonPopoverCard *,
+:not(.dark) .cl-userButtonBox .cl-userButtonPopoverCardRoot,
+:not(.dark) .cl-userButtonBox .cl-userButtonPopoverCardRoot *,
+:not(.dark) .cl-userButtonBox .cl-userButtonPopoverCardHeader,
+:not(.dark) .cl-userButtonBox .cl-userButtonPopoverCardHeader *,
+:not(.dark) .cl-userButtonBox .cl-userButtonPopoverCardActions,
+:not(.dark) .cl-userButtonBox .cl-userButtonPopoverCardActions * {
+  color: #1f2937 !important;
+}
+
+/* Light mode backgrounds */
+:not(.dark) .cl-userButtonBox .cl-userButtonPopoverCard,
+:not(.dark) .cl-userButtonBox .cl-userButtonPopoverCardRoot,
+:not(.dark) .cl-userButtonBox .cl-userButtonPopoverCardHeader {
+  background-color: white !important;
+  border: 1px solid rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Light mode hover states */
+:not(.dark) .cl-userButtonBox .cl-userButtonTrigger:hover,
+:not(.dark) .cl-userButtonBox .cl-userButtonPopoverActionButton:hover {
+  background-color: rgba(0, 0, 0, 0.05) !important;
+}
+
+/* Specific text elements in light mode */
+:not(.dark) .cl-userButtonBox .cl-userButtonPopoverCardHeaderTitle {
+  color: #1f2937 !important;
+  font-weight: 600 !important;
+}
+
+:not(.dark) .cl-userButtonBox .cl-userButtonPopoverCardHeaderSubtitle,
+:not(.dark) .cl-userButtonBox .cl-userButtonPopoverCardHeaderSecondary {
+  color: #6b7280 !important;
+}
+
+/* Dark mode overrides (ensure proper contrast) */
+.dark .cl-userButtonBox,
+.dark .cl-userButtonBox *,
+.dark .cl-userButtonBox .cl-userButtonTrigger,
+.dark .cl-userButtonBox .cl-userButtonPopoverCard,
+.dark .cl-userButtonBox .cl-userButtonPopoverCard *,
+.dark .cl-userButtonBox .cl-userButtonPopoverCardRoot,
+.dark .cl-userButtonBox .cl-userButtonPopoverCardRoot *,
+.dark .cl-userButtonBox .cl-userButtonPopoverCardHeader,
+.dark .cl-userButtonBox .cl-userButtonPopoverCardHeader *,
+.dark .cl-userButtonBox .cl-userButtonPopoverCardActions,
+.dark .cl-userButtonBox .cl-userButtonPopoverCardActions * {
+  color: #f9fafb !important;
+}
+
+/* Dark mode backgrounds */
+.dark .cl-userButtonBox .cl-userButtonPopoverCard,
+.dark .cl-userButtonBox .cl-userButtonPopoverCardRoot,
+.dark .cl-userButtonBox .cl-userButtonPopoverCardHeader {
+  background-color: #1f2937 !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Dark mode hover states */
+.dark .cl-userButtonBox .cl-userButtonTrigger:hover,
+.dark .cl-userButtonBox .cl-userButtonPopoverActionButton:hover {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+}
+
+/* Specific text elements in dark mode */
+.dark .cl-userButtonBox .cl-userButtonPopoverCardHeaderTitle {
+  color: #f9fafb !important;
+  font-weight: 600 !important;
+}
+
+.dark .cl-userButtonBox .cl-userButtonPopoverCardHeaderSubtitle,
+.dark .cl-userButtonBox .cl-userButtonPopoverCardHeaderSecondary {
+  color: #d1d5db !important;
+}
+
+/* Comprehensive Clerk styling for all components */
+/* Light mode - All Clerk components */
+:not(.dark) [class*="cl-"] {
+  color: #1f2937 !important;
+}
+
+:not(.dark) [class*="cl-"] * {
+  color: #1f2937 !important;
+}
+
+/* Light mode - Clerk modals and overlays */
+:not(.dark) .cl-modal,
+:not(.dark) .cl-modal *,
+:not(.dark) .cl-overlay,
+:not(.dark) .cl-overlay *,
+:not(.dark) .cl-card,
+:not(.dark) .cl-card *,
+:not(.dark) .cl-page,
+:not(.dark) .cl-page * {
+  color: #1f2937 !important;
+  background-color: white !important;
+}
+
+/* Light mode - Clerk buttons */
+:not(.dark) .cl-button,
+:not(.dark) .cl-button *,
+:not(.dark) [class*="cl-button"] {
+  color: #1f2937 !important;
+  background-color: white !important;
+  border: 1px solid rgba(0, 0, 0, 0.1) !important;
+}
+
+:not(.dark) .cl-button:hover,
+:not(.dark) [class*="cl-button"]:hover {
+  background-color: rgba(0, 0, 0, 0.05) !important;
+}
+
+/* Light mode - Clerk form elements */
+:not(.dark) .cl-form,
+:not(.dark) .cl-form *,
+:not(.dark) .cl-input,
+:not(.dark) .cl-input *,
+:not(.dark) .cl-label,
+:not(.dark) .cl-label * {
+  color: #1f2937 !important;
+  background-color: white !important;
+}
+
+/* Light mode - Clerk navigation and links */
+:not(.dark) .cl-nav,
+:not(.dark) .cl-nav *,
+:not(.dark) .cl-link,
+:not(.dark) .cl-link *,
+:not(.dark) [class*="cl-link"] {
+  color: #1f2937 !important;
+}
+
+/* Light mode - Clerk headers and titles */
+:not(.dark) .cl-header,
+:not(.dark) .cl-header *,
+:not(.dark) .cl-title,
+:not(.dark) .cl-title *,
+:not(.dark) [class*="cl-header"],
+:not(.dark) [class*="cl-title"] {
+  color: #1f2937 !important;
+}
+
+/* Light mode - Clerk text and content */
+:not(.dark) .cl-text,
+:not(.dark) .cl-text *,
+:not(.dark) .cl-content,
+:not(.dark) .cl-content *,
+:not(.dark) [class*="cl-text"],
+:not(.dark) [class*="cl-content"] {
+  color: #1f2937 !important;
+}
+
+/* Dark mode - All Clerk components */
+.dark [class*="cl-"] {
+  color: #f9fafb !important;
+}
+
+.dark [class*="cl-"] * {
+  color: #f9fafb !important;
+}
+
+/* Dark mode - Clerk modals and overlays */
+.dark .cl-modal,
+.dark .cl-modal *,
+.dark .cl-overlay,
+.dark .cl-overlay *,
+.dark .cl-card,
+.dark .cl-card *,
+.dark .cl-page,
+.dark .cl-page * {
+  color: #f9fafb !important;
+  background-color: #1f2937 !important;
+}
+
+/* Dark mode - Clerk buttons */
+.dark .cl-button,
+.dark .cl-button *,
+.dark [class*="cl-button"] {
+  color: #f9fafb !important;
+  background-color: #1f2937 !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+.dark .cl-button:hover,
+.dark [class*="cl-button"]:hover {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+}
+
+/* Dark mode - Clerk form elements */
+.dark .cl-form,
+.dark .cl-form *,
+.dark .cl-input,
+.dark .cl-input *,
+.dark .cl-label,
+.dark .cl-label * {
+  color: #f9fafb !important;
+  background-color: #1f2937 !important;
+}
+
+/* Dark mode - Clerk navigation and links */
+.dark .cl-nav,
+.dark .cl-nav *,
+.dark .cl-link,
+.dark .cl-link *,
+.dark [class*="cl-link"] {
+  color: #f9fafb !important;
+}
+
+/* Dark mode - Clerk headers and titles */
+.dark .cl-header,
+.dark .cl-header *,
+.dark .cl-title,
+.dark .cl-title *,
+.dark [class*="cl-header"],
+.dark [class*="cl-title"] {
+  color: #f9fafb !important;
+}
+
+/* Dark mode - Clerk text and content */
+.dark .cl-text,
+.dark .cl-text *,
+.dark .cl-content,
+.dark .cl-content *,
+.dark [class*="cl-text"],
+.dark [class*="cl-content"] {
+  color: #f9fafb !important;
+}
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 222.2 47.4% 11.2%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 222.2 84% 4.9%;
+    --muted: 210 40% 96%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96%;
+    --accent-foreground: 222.2 84% 4.9%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 222.2 84% 4.9%;
+    --chart-1: 12 76% 61%;
+    --chart-2: 173 58% 39%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+

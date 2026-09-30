@@ -1,0 +1,308 @@
+// Cardinalities (UML numbers are NOT Prisma syntax).
+// String     = required FK  →  1
+// String?    = optional FK  →  0..1
+// Type[]     = list         →  0..*  (empty allowed)
+// @unique    on FK          →  0..1 on the other side
+//
+// Mission: clientId = Create 1 User; verifierId = Validate 0..1 User
+// Conflict: reporterId = Report 1 User; assignedAdminId = Solve 0..1
+//   (client/builder are on Mission/Contract, not 2..* on Conflict)
+// Category / Skill: createdById = Create 0..1 User (seed rows stay null; admin POST sets it)
+// Contract.missionId @unique = Mission 0..1 Contract; Contract 1 Mission
+// User.skills[] = Have 0..* Skill (join _UserSkills). 1..* is NOT in the DB.
+// Mission skills: extra rule in app/api/missions/route.ts (at least one skill)
+// Notification.userId = FK; missionId/conflictId = optional strings, no @relation
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model categories {
+  name                                String     @unique @db.VarChar(255)
+  description                         String?
+  createdAt                           DateTime   @default(now())
+  updatedAt                           DateTime
+  categoryId                          String     @id
+  createdById                         String?
+  users_categories_createdByIdTousers users?     @relation("categories_createdByIdTousers", fields: [createdById], references: [id], onDelete: SetNull)
+  missions                            missions[] @relation("CategoryToMission")
+  skills                              skills[]   @relation("CategoryToSkill")
+}
+
+model conflicts {
+  id                                     String          @id
+  status                                 String
+  motive                                 String
+  startDate                              DateTime
+  endDate                                DateTime?
+  createdAt                              DateTime        @default(now())
+  updatedAt                              DateTime
+  contractId                             String
+  assignedAdminId                        String?
+  reporterId                             String
+  users_conflicts_assignedAdminIdTousers users?          @relation("conflicts_assignedAdminIdTousers", fields: [assignedAdminId], references: [id])
+  contracts                              contracts       @relation(fields: [contractId], references: [id])
+  users_conflicts_reporterIdTousers      users           @relation("conflicts_reporterIdTousers", fields: [reporterId], references: [id])
+  conversations                          conversations[]
+}
+
+model contracts {
+  id                                  String      @id
+  contractTerms                       String
+  startDate                           DateTime
+  endDate                             DateTime
+  isActive                            Boolean     @default(true)
+  missionId                           String      @unique
+  createdAt                           DateTime    @default(now())
+  updatedAt                           DateTime
+  dailyRate                           Decimal     @db.Decimal(10, 2)
+  adminId                             String
+  freelancerId                        String
+  seenByClientAt                      DateTime?
+  conflicts                           conflicts[]
+  users_contracts_adminIdTousers      users       @relation("contracts_adminIdTousers", fields: [adminId], references: [id])
+  users_contracts_freelancerIdTousers users       @relation("contracts_freelancerIdTousers", fields: [freelancerId], references: [id])
+  missions                            missions    @relation(fields: [missionId], references: [id])
+  offers                              offers[]    @relation("ContractToOffer")
+  payments                            payments[]  @relation("ContractToPayment")
+}
+
+model conversation_participants {
+  id             String        @id
+  conversationId String
+  userId         String
+  isActive       Boolean       @default(true)
+  lastReadAt     DateTime?
+  conversations  conversations @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  users          users         @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([conversationId, userId])
+}
+
+model conversations {
+  id                        String                      @id
+  createdAt                 DateTime                    @default(now())
+  updatedAt                 DateTime
+  missionId                 String?
+  conflictId                String?
+  conversation_participants conversation_participants[]
+  conflicts                 conflicts?                  @relation(fields: [conflictId], references: [id])
+  missions                  missions?                   @relation(fields: [missionId], references: [id])
+  messages                  messages[]
+}
+
+model currencies {
+  id        String     @id
+  name      String     @db.VarChar(100)
+  code      String     @unique @db.VarChar(10)
+  type      String     @db.VarChar(50)
+  createdAt DateTime   @default(now())
+  updatedAt DateTime
+  payments  payments[]
+}
+
+model messages {
+  id             String        @id
+  content        String
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime
+  senderId       String
+  conversationId String
+  isRead         Boolean       @default(false)
+  replyToId      String?
+  messageId      String        @unique
+  status         String        @default("sent")
+  conversations  conversations @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  messages       messages?     @relation("messagesTomessages", fields: [replyToId], references: [id])
+  other_messages messages[]    @relation("messagesTomessages")
+  users          users         @relation(fields: [senderId], references: [id])
+}
+
+model notifications {
+  id         String    @id
+  userId     String
+  type       String    @db.VarChar(50)   // e.g. 'conflict_created', 'conflict_resolved'
+  conflictId String?
+  missionId  String?
+  title      String?   @db.VarChar(255)
+  message    String?   @db.Text
+  readAt     DateTime?
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime
+  users      users     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model missions {
+  id                               String            @id
+  dailyRate                        Decimal           @db.Decimal(10, 2)
+  timeframe                        Int
+  description                      String
+  clientId                         String
+  createdAt                        DateTime          @default(now())
+  updatedAt                        DateTime
+  endDate                          DateTime?
+  startDate                        DateTime?
+  timezone                         DateTime?
+  status                           String            @default("OPEN")
+  title                            String
+  isVerified                       Boolean           @default(false)
+  verifierId                       String?
+  deadline                         DateTime?
+  gracePeriodEnd                   DateTime?
+  contracts                        contracts?
+  conversations                    conversations[]
+  users_missions_clientIdTousers   users             @relation("missions_clientIdTousers", fields: [clientId], references: [id])
+  users_missions_verifierIdTousers users?            @relation("missions_verifierIdTousers", fields: [verifierId], references: [id])
+  offers                           offers[]
+  payments                         payments[]
+  reviews                          reviews[]
+  categories                       categories[]      @relation("CategoryToMission")
+  skills                           skills[]          @relation("MissionToSkill")
+}
+
+model offers {
+  id                 String      @id
+  status             String
+  dailyRate          Decimal     @db.Decimal(10, 2)
+  proposalText       String
+  startDate          DateTime
+  endDate            DateTime
+  createdAt          DateTime    @default(now())
+  updatedAt          DateTime
+  freelancerId       String
+  missionId          String
+  seenByFreelancerAt DateTime?
+  users              users       @relation(fields: [freelancerId], references: [id])
+  missions           missions    @relation(fields: [missionId], references: [id])
+  contracts          contracts[] @relation("ContractToOffer")
+  payments           payments[]  @relation("OfferToPayment")
+}
+
+model payments {
+  id                    String      @id
+  amount                Decimal     @db.Decimal(15, 2)
+  paymentMethod         String
+  transactionDate       DateTime
+  missionId             String
+  createdAt             DateTime    @default(now())
+  updatedAt             DateTime
+  status                String
+  userId                String
+  conversionRate        Decimal?    @db.Decimal(15, 8)
+  cryptoAmount          Decimal?    @db.Decimal(20, 8)
+  cryptoCurrency        String?
+  cryptoTransactionHash String?
+  cryptoWalletAddress   String?
+  currencyId            String?
+  seenByFreelancerAt    DateTime?
+  currencies            currencies? @relation(fields: [currencyId], references: [id])
+  missions              missions    @relation(fields: [missionId], references: [id])
+  users                 users       @relation(fields: [userId], references: [id])
+  contracts             contracts[] @relation("ContractToPayment")
+  offers                offers[]    @relation("OfferToPayment")
+}
+
+model portfolios {
+  id          String     @id
+  name        String?    @db.VarChar(255)
+  description String?
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime
+  userId      String     @unique
+  users       users      @relation(fields: [userId], references: [id])
+  projects    projects[]
+}
+
+model projects {
+  id          String     @id
+  name        String     @db.VarChar(255)
+  description String?
+  url         String?    @db.VarChar(255)
+  picture     String[]
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime
+  portfolioId String
+  portfolios  portfolios @relation(fields: [portfolioId], references: [id], onDelete: Cascade)
+}
+
+model reviews {
+  id                              String           @id
+  content                         String
+  rating                          Int
+  createdAt                       DateTime         @default(now())
+  updatedAt                       DateTime
+  reviewerId                      String
+  receiverId                      String
+  missionId                       String?
+  missions                        missions?        @relation(fields: [missionId], references: [id])
+  users_reviews_receiverIdTousers users            @relation("reviews_receiverIdTousers", fields: [receiverId], references: [id])
+  users_reviews_reviewerIdTousers users            @relation("reviews_reviewerIdTousers", fields: [reviewerId], references: [id])
+}
+
+model roles {
+  id          String   @id
+  name        String   @unique
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime
+  users       users[]
+}
+
+model skills {
+  id                              String       @id
+  name                            String       @unique @db.VarChar(255)
+  createdAt                       DateTime     @default(now())
+  updatedAt                       DateTime
+  createdById                     String?
+  users_skills_createdByIdTousers users?       @relation("skills_createdByIdTousers", fields: [createdById], references: [id], onDelete: SetNull)
+  categories                      categories[] @relation("CategoryToSkill")
+  missions                        missions[]   @relation("MissionToSkill")
+  users                           users[]      @relation("UserSkills")
+}
+
+model users {
+  id                                         String                      @id
+  email                                      String                      @unique
+  clerkId                                    String?                     @unique
+  createdAt                                  DateTime                    @default(now())
+  updatedAt                                  DateTime
+  active                                     Boolean                     @default(true)
+  address                                    String?
+  bankAccount                                String?
+  firstName                                  String?
+  lastName                                   String?
+  login                                      String?                     @unique
+  password                                   String?
+  phoneNumber                                String?
+  vat                                        String?
+  companyName                                String?
+  cryptoWalletAddress                        String?
+  dailyRate                                  Decimal?                    @db.Decimal(10, 2)
+  description                                String?
+  preferredPaymentMethod                     String?                     @default("EUR")
+  roleId                                     String
+  picture                                    String?
+  categories_categories_createdByIdTousers   categories[]                @relation("categories_createdByIdTousers")
+  skills_skills_createdByIdTousers           skills[]                    @relation("skills_createdByIdTousers")
+  conflicts_conflicts_assignedAdminIdTousers conflicts[]                 @relation("conflicts_assignedAdminIdTousers")
+  conflicts_conflicts_reporterIdTousers      conflicts[]                 @relation("conflicts_reporterIdTousers")
+  contracts_contracts_adminIdTousers         contracts[]                 @relation("contracts_adminIdTousers")
+  contracts_contracts_freelancerIdTousers    contracts[]                 @relation("contracts_freelancerIdTousers")
+  conversation_participants                  conversation_participants[]
+  messages                                   messages[]
+  missions_missions_clientIdTousers          missions[]                  @relation("missions_clientIdTousers")
+  missions_missions_verifierIdTousers        missions[]                  @relation("missions_verifierIdTousers")
+  notifications                              notifications[]
+  offers                                     offers[]
+  payments                                   payments[]
+  portfolios                                 portfolios?
+  reviews_reviews_receiverIdTousers          reviews[]                   @relation("reviews_receiverIdTousers")
+  reviews_reviews_reviewerIdTousers          reviews[]                   @relation("reviews_reviewerIdTousers")
+  roles                                      roles                       @relation(fields: [roleId], references: [id])
+  skills                                     skills[]                    @relation("UserSkills")
+}

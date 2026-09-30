@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Freelance Marketplace - Package Diagram</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+        }
+        .mermaid {
+            text-align: center;
+        }
+        .legend {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #007bff;
+        }
+        .legend h3 {
+            margin-top: 0;
+            color: #007bff;
+        }
+        .legend-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .color-box {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏗️ Freelance Marketplace - Package Diagram</h1>
+        
+        <div class="mermaid">
+            graph TB
+                subgraph "Frontend Layer"
+                    subgraph "UI Components"
+                        UI[ui/]
+                        LAYOUT[layout/]
+                        SHARED[shared/]
+                        HOME[home/]
+                    end
+                    
+                    subgraph "Page Components"
+                        PAGES[app/]
+                        CONTRACTS[contracts/]
+                        MISSIONS[missions/]
+                        SERVICES[services/]
+                        SKILLS[skills/]
+                        PORTFOLIOS[portfolios/]
+                        AUTH[sign-in/, sign-up/]
+                    end
+                end
+                
+                subgraph "API Layer"
+                    subgraph "REST API Routes"
+                        API[app/api/]
+                        USERS[users/]
+                        MISSIONS_API[missions/]
+                        CONTRACTS_API[contracts/]
+                        SERVICES_API[services/]
+                        SKILLS_API[skills/]
+                        PORTFOLIOS_API[portfolios/]
+                        WEBHOOKS[webhooks/]
+                    end
+                end
+                
+                subgraph "Business Logic Layer"
+                    subgraph "Core Services"
+                        AUTH_SERVICE[lib/auth.ts]
+                        PRISMA_SERVICE[lib/prisma.ts]
+                        UTILS[lib/utils.ts]
+                        CONSTANTS[lib/constants.ts]
+                    end
+                    
+                    subgraph "Custom Hooks"
+                        HOOKS[lib/hooks/]
+                        USER_ROLE[useUserRole.ts]
+                        INTERSECTION[use-intersection-observer.ts]
+                        LOCAL_STORAGE[use-local-storage.ts]
+                    end
+                end
+                
+                subgraph "Data Access Layer"
+                    subgraph "Database"
+                        PRISMA[prisma/]
+                        SCHEMA[schema.prisma]
+                        SEED[seed.ts]
+                        MIGRATIONS[migrations/]
+                    end
+                end
+                
+                subgraph "External Services"
+                    subgraph "Third Party"
+                        CLERK[Clerk Auth]
+                        POSTGRESQL[PostgreSQL]
+                        VERCEL[Vercel Deployment]
+                    end
+                end
+                
+                subgraph "Configuration & Build"
+                    subgraph "Config Files"
+                        PACKAGE[package.json]
+                        NEXT_CONFIG[next.config.js]
+                        TAILWIND[tailwind.config.js]
+                        TSCONFIG[tsconfig.json]
+                    end
+                end
+                
+                %% Dependencies
+                PAGES --> API
+                PAGES --> UI
+                PAGES --> LAYOUT
+                PAGES --> SHARED
+                PAGES --> HOOKS
+                
+                API --> AUTH_SERVICE
+                API --> PRISMA_SERVICE
+                API --> UTILS
+                
+                AUTH_SERVICE --> PRISMA
+                PRISMA_SERVICE --> PRISMA
+                
+                PRISMA --> POSTGRESQL
+                API --> CLERK
+                PAGES --> CLERK
+                
+                WEBHOOKS --> CLERK
+                
+                %% Styling
+                classDef frontend fill:#e1f5fe,stroke:#01579b,stroke-width:2px
+                classDef api fill:#f3e5f5,stroke:#4a148c,stroke-width:2px
+                classDef business fill:#e8f5e8,stroke:#1b5e20,stroke-width:2px
+                classDef data fill:#fff3e0,stroke:#e65100,stroke-width:2px
+                classDef external fill:#ffebee,stroke:#b71c1c,stroke-width:2px
+                classDef config fill:#f1f8e9,stroke:#33691e,stroke-width:2px
+                
+                class PAGES,UI,LAYOUT,SHARED,HOME,CONTRACTS,MISSIONS,SERVICES,SKILLS,PORTFOLIOS,AUTH frontend
+                class API,USERS,MISSIONS_API,CONTRACTS_API,SERVICES_API,SKILLS_API,PORTFOLIOS_API,WEBHOOKS api
+                class AUTH_SERVICE,PRISMA_SERVICE,UTILS,CONSTANTS,HOOKS,USER_ROLE,INTERSECTION,LOCAL_STORAGE business
+                class PRISMA,SCHEMA,SEED,MIGRATIONS data
+                class CLERK,POSTGRESQL,VERCEL external
+                class PACKAGE,NEXT_CONFIG,TAILWIND,TSCONFIG config
+        </div>
+        
+        <div class="legend">
+            <h3>📋 Package Layer Legend</h3>
+            <div class="legend-grid">
+                <div class="legend-item">
+                    <div class="color-box" style="background-color: #e1f5fe;"></div>
+                    <span><strong>Frontend Layer:</strong> UI Components, Pages, User Interface</span>
+                </div>
+                <div class="legend-item">
+                    <div class="color-box" style="background-color: #f3e5f5;"></div>
+                    <span><strong>API Layer:</strong> REST Endpoints, HTTP Routes</span>
+                </div>
+                <div class="legend-item">
+                    <div class="color-box" style="background-color: #e8f5e8;"></div>
+                    <span><strong>Business Logic:</strong> Core Services, Custom Hooks</span>
+                </div>
+                <div class="legend-item">
+                    <div class="color-box" style="background-color: #fff3e0;"></div>
+                    <span><strong>Data Access:</strong> Database Schema, Migrations</span>
+                </div>
+                <div class="legend-item">
+                    <div class="color-box" style="background-color: #ffebee;"></div>
+                    <span><strong>External Services:</strong> Third-party Integrations</span>
+                </div>
+                <div class="legend-item">
+                    <div class="color-box" style="background-color: #f1f8e9;"></div>
+                    <span><strong>Configuration:</strong> Build & Config Files</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="legend">
+            <h3>🔗 Key Dependencies</h3>
+            <ul>
+                <li><strong>Frontend → API:</strong> HTTP requests for data fetching</li>
+                <li><strong>API → Business Logic:</strong> Service layer calls and validation</li>
+                <li><strong>Business Logic → Data Access:</strong> Database operations via Prisma</li>
+                <li><strong>All Layers → External Services:</strong> Authentication, hosting, database</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'default',
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true,
+                curve: 'basis'
+            }
+        });
+    </script>
+</body>
+</html>

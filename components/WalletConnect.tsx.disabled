@@ -1,0 +1,318 @@
+"use client";
+
+import { ConnectButton } from '@rainbow-me/rainbowkit';
+import { useAccount, useDisconnect } from 'wagmi';
+import { useState, useEffect } from 'react';
+import { Wallet, ChevronDown, LogOut, Copy, ExternalLink, Shield, AlertTriangle } from 'lucide-react';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { Button } from '@/components/ui/button';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
+
+export default function WalletConnect() {
+  const { address, isConnected } = useAccount();
+  const { disconnect } = useDisconnect();
+  const [copied, setCopied] = useState(false);
+  const [showSecurityInfo, setShowSecurityInfo] = useState(false);
+
+  const copyAddress = async () => {
+    if (address) {
+      await navigator.clipboard.writeText(address);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
+  };
+
+  const formatAddress = (address: string) => {
+    return `${address.slice(0, 6)}...${address.slice(-4)}`;
+  };
+
+  const openExplorer = (chainId?: number) => {
+    if (address) {
+      let explorerUrl = '';
+      
+      // Determine the correct explorer based on the chain ID
+      switch (chainId) {
+        case 1: // Ethereum Mainnet
+          explorerUrl = `https://etherscan.io/address/${address}`;
+          break;
+        case 137: // Polygon
+          explorerUrl = `https://polygonscan.com/address/${address}`;
+          break;
+        case 10: // Optimism
+          explorerUrl = `https://optimistic.etherscan.io/address/${address}`;
+          break;
+        case 42161: // Arbitrum
+          explorerUrl = `https://arbiscan.io/address/${address}`;
+          break;
+        case 8453: // Base
+          explorerUrl = `https://basescan.org/address/${address}`;
+          break;
+        case 7777777: // Zora
+          explorerUrl = `https://explorer.zora.energy/address/${address}`;
+          break;
+        case 43114: // Avalanche
+          explorerUrl = `https://snowtrace.io/address/${address}`;
+          break;
+        default:
+          explorerUrl = `https://etherscan.io/address/${address}`;
+      }
+      
+      window.open(explorerUrl, '_blank');
+    }
+  };
+
+  const handleDisconnect = () => {
+    disconnect();
+    setShowSecurityInfo(false);
+  };
+
+  if (!isConnected) {
+    return (
+      <div className="flex items-center gap-2">
+        <ConnectButton.Custom>
+          {({
+            account,
+            chain,
+            openAccountModal,
+            openChainModal,
+            openConnectModal,
+            mounted,
+          }) => {
+            return (
+              <div
+                {...(!mounted && {
+                  'aria-hidden': true,
+                  style: {
+                    opacity: 0,
+                    pointerEvents: 'none',
+                    userSelect: 'none',
+                  },
+                })}
+              >
+                {(() => {
+                  if (!mounted || !account || !chain) {
+                    return (
+                      <AlertDialog>
+                        <AlertDialogTrigger asChild>
+                          <Button
+                            className="neon-btn px-5 py-2 font-semibold text-base focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400"
+                          >
+                            <Wallet className="h-4 w-4 mr-2" />
+                            Connect Wallet
+                          </Button>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                          <AlertDialogHeader>
+                            <AlertDialogTitle className="flex items-center gap-2">
+                              <Shield className="h-5 w-5 text-blue-500" />
+                              Wallet Connection Security
+                            </AlertDialogTitle>
+                            <AlertDialogDescription>
+                              <div className="space-y-3">
+                                <p>
+                                  Connecting your wallet to Peak is safe and secure. Here's what you should know:
+                                </p>
+                                <div className="bg-green-50 dark:bg-green-900/20 p-3 rounded-lg">
+                                  <h4 className="font-semibold text-green-800 dark:text-green-200 mb-2">✅ What's Safe:</h4>
+                                  <ul className="text-sm text-green-700 dark:text-green-300 space-y-1">
+                                    <li>• We only read your public wallet address</li>
+                                    <li>• We cannot access your private keys</li>
+                                    <li>• We cannot send transactions without your approval</li>
+                                    <li>• You can disconnect anytime</li>
+                                  </ul>
+                                </div>
+                                <div className="bg-yellow-50 dark:bg-yellow-900/20 p-3 rounded-lg">
+                                  <h4 className="font-semibold text-yellow-800 dark:text-yellow-200 mb-2 flex items-center gap-1">
+                                    <AlertTriangle className="h-4 w-4" />
+                                    Security Tips:
+                                  </h4>
+                                  <ul className="text-sm text-yellow-700 dark:text-yellow-300 space-y-1">
+                                    <li>• Always verify you're on the correct website</li>
+                                    <li>• Never share your private keys or seed phrase</li>
+                                    <li>• Use hardware wallets for large amounts</li>
+                                    <li>• Review any transaction before signing</li>
+                                  </ul>
+                                </div>
+                              </div>
+                            </AlertDialogDescription>
+                          </AlertDialogHeader>
+                          <AlertDialogFooter>
+                            <AlertDialogCancel>Cancel</AlertDialogCancel>
+                            <AlertDialogAction onClick={openConnectModal}>
+                              Connect Wallet
+                            </AlertDialogAction>
+                          </AlertDialogFooter>
+                        </AlertDialogContent>
+                      </AlertDialog>
+                    );
+                  }
+
+                  if (chain.unsupported) {
+                    console.log('Unsupported chain detected:', chain);
+                    return (
+                      <Button
+                        onClick={openChainModal}
+                        className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-full text-sm font-medium"
+                      >
+                        Wrong network
+                      </Button>
+                    );
+                  }
+
+                  console.log('Connected to chain:', chain.name, 'ID:', chain.id);
+
+                  return (
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button
+                          variant="outline"
+                          className="rounded-full border border-gray-900 dark:border-white bg-transparent px-4 py-1.5 text-sm text-gray-900 dark:text-white transition-colors hover:bg-gray-900 hover:text-white dark:hover:bg-white dark:hover:text-black focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400"
+                        >
+                          <Wallet className="h-4 w-4 mr-2" />
+                          {formatAddress(account.address)}
+                          <ChevronDown className="h-4 w-4 ml-2" />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end" className="w-56">
+                        <DropdownMenuItem onClick={openAccountModal}>
+                          <Wallet className="h-4 w-4 mr-2" />
+                          Account
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onClick={openChainModal}>
+                          <div className="flex items-center">
+                            {chain.hasIcon && (
+                              <div
+                                style={{
+                                  background: chain.iconBackground,
+                                  width: 12,
+                                  height: 12,
+                                  borderRadius: 999,
+                                  overflow: 'hidden',
+                                  marginRight: 8,
+                                }}
+                              >
+                                {chain.iconUrl && (
+                                  <img
+                                    alt={chain.name ?? 'Chain icon'}
+                                    src={chain.iconUrl}
+                                    style={{ width: 12, height: 12 }}
+                                  />
+                                )}
+                              </div>
+                            )}
+                            {chain.name}
+                          </div>
+                        </DropdownMenuItem>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem onClick={copyAddress}>
+                          <Copy className="h-4 w-4 mr-2" />
+                          {copied ? 'Copied!' : 'Copy Address'}
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => {
+                          if (account?.address && chain?.id) {
+                            console.log('Opening explorer for chain:', chain.name, 'ID:', chain.id);
+                            let explorerUrl = '';
+                            
+                            // Determine the correct explorer based on the chain ID
+                            switch (chain.id) {
+                              case 1: // Ethereum Mainnet
+                                explorerUrl = `https://etherscan.io/address/${account.address}`;
+                                break;
+                              case 137: // Polygon
+                                explorerUrl = `https://polygonscan.com/address/${account.address}`;
+                                break;
+                              case 10: // Optimism
+                                explorerUrl = `https://optimistic.etherscan.io/address/${account.address}`;
+                                break;
+                              case 42161: // Arbitrum
+                                explorerUrl = `https://arbiscan.io/address/${account.address}`;
+                                break;
+                              case 8453: // Base
+                                explorerUrl = `https://basescan.org/address/${account.address}`;
+                                break;
+                              case 7777777: // Zora
+                                explorerUrl = `https://explorer.zora.energy/address/${account.address}`;
+                                break;
+                              case 43114: // Avalanche
+                                explorerUrl = `https://snowtrace.io/address/${account.address}`;
+                                break;
+                              default:
+                                explorerUrl = `https://etherscan.io/address/${account.address}`;
+                            }
+                            
+                            console.log('Opening URL:', explorerUrl);
+                            window.open(explorerUrl, '_blank');
+                          }
+                        }}>
+                          <ExternalLink className="h-4 w-4 mr-2" />
+                          View on Explorer
+                        </DropdownMenuItem>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem onClick={() => disconnect()}>
+                          <LogOut className="h-4 w-4 mr-2" />
+                          Disconnect
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  );
+                })()}
+              </div>
+            );
+          }}
+        </ConnectButton.Custom>
+      </div>
+    );
+  }
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button
+          variant="outline"
+          className="rounded-full border border-gray-900 dark:border-white bg-transparent px-4 py-1.5 text-sm text-gray-900 dark:text-white transition-colors hover:bg-gray-900 hover:text-white dark:hover:bg-white dark:hover:text-black focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400"
+        >
+          <Wallet className="h-4 w-4 mr-2" />
+          {formatAddress(address || '')}
+          <ChevronDown className="h-4 w-4 ml-2" />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end" className="w-56">
+        <DropdownMenuItem onClick={copyAddress}>
+          <Copy className="h-4 w-4 mr-2" />
+          {copied ? 'Copied!' : 'Copy Address'}
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => {
+          if (address) {
+            // Since we don't have chain info here, default to Etherscan
+            // Users can manually switch to the correct explorer if needed
+            window.open(`https://etherscan.io/address/${address}`, '_blank');
+          }
+        }}>
+          <ExternalLink className="h-4 w-4 mr-2" />
+          View on Explorer
+        </DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem onClick={handleDisconnect}>
+          <LogOut className="h-4 w-4 mr-2" />
+          Disconnect
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+}

@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Freelance Marketplace - Use Case Diagram (Simple)</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .page {
+            max-width: 1600px;
+            margin: 0 auto 40px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            page-break-after: always;
+        }
+        .page:last-child {
+            page-break-after: avoid;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+        }
+        h2 {
+            color: #007bff;
+            border-bottom: 3px solid #007bff;
+            padding-bottom: 10px;
+            margin-top: 40px;
+        }
+        .mermaid {
+            text-align: center;
+        }
+        .legend {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #007bff;
+        }
+        .legend h3 {
+            margin-top: 0;
+            color: #007bff;
+        }
+        .legend-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .color-box {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+        .feature-list {
+            margin-top: 20px;
+            padding: 20px;
+            background: #e8f5e8;
+            border-radius: 8px;
+            border-left: 4px solid #28a745;
+        }
+        .feature-list h3 {
+            margin-top: 0;
+            color: #28a745;
+        }
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 15px;
+        }
+        .feature-card {
+            background: white;
+            padding: 15px;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+        }
+        .feature-card h4 {
+            margin-top: 0;
+            color: #333;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 5px;
+        }
+        .feature-card ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        .feature-card li {
+            margin: 5px 0;
+        }
+        .use-case-details {
+            margin-top: 30px;
+        }
+        .use-case-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #6c757d;
+        }
+        .use-case-section h3 {
+            margin-top: 0;
+            color: #495057;
+        }
+        .use-case-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        .use-case-item {
+            background: white;
+            padding: 15px;
+            border-radius: 6px;
+            border: 1px solid #dee2e6;
+        }
+        .use-case-item h4 {
+            margin-top: 0;
+            color: #495057;
+            font-size: 1.1em;
+        }
+        .use-case-item p {
+            margin: 10px 0 0 0;
+            color: #6c757d;
+            font-size: 0.9em;
+        }
+        @media print {
+            .page {
+                page-break-after: always;
+            }
+            .page:last-child {
+                page-break-after: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- PAGE 1: DIAGRAM -->
+    <div class="page">
+        <h1>🎯 Freelance Marketplace - Use Case Diagram</h1>
+        
+        <div class="mermaid">
+            graph TB
+                %% Actors
+                Client((👤 Client))
+                Freelancer((👨‍💻 Freelancer))
+                Admin((🔧 Admin))
+                Support((🛟 Support))
+                
+                %% Client Use Cases
+                subgraph "Client Use Cases"
+                    UC1[📝 Create Mission]
+                    UC2[👀 Browse Freelancers]
+                    UC3[📋 View Contracts]
+                    UC4[💰 Manage Payments]
+                    UC5[✏️ Edit Mission]
+                    UC6[🗑️ Delete Mission]
+                    UC7[📊 View Mission Status]
+                    UC8[💬 Send Messages]
+                    UC9[⭐ Leave Reviews]
+                    UC10[📱 Update Profile]
+                end
+                
+                %% Freelancer Use Cases
+                subgraph "Freelancer Use Cases"
+                    UC11[🔍 Browse Missions]
+                    UC12[📄 Create Portfolio]
+                    UC13[🛠️ Manage Services]
+                    UC14[🎯 Manage Skills]
+                    UC15[📝 Submit Offers]
+                    UC16[📋 View Contracts]
+                    UC17[💬 Send Messages]
+                    UC18[⭐ Leave Reviews]
+                    UC19[📱 Update Profile]
+                    UC20[💰 View Earnings]
+                end
+                
+                %% Admin Use Cases
+                subgraph "Admin Use Cases"
+                    UC21[👥 Manage Users]
+                    UC22[📊 View Analytics]
+                    UC23[🔧 System Settings]
+                    UC24[📋 Manage All Contracts]
+                    UC25[🚨 Handle Conflicts]
+                    UC26[💰 Payment Oversight]
+                    UC27[📝 Content Moderation]
+                    UC28[🔐 Role Management]
+                end
+                
+                %% Support Use Cases
+                subgraph "Support Use Cases"
+                    UC29[🆘 Handle Disputes]
+                    UC30[📞 User Assistance]
+                    UC31[📋 Contract Support]
+                    UC32[🚨 Conflict Resolution]
+                    UC33[📧 Ticket Management]
+                    UC34[📊 View Reports]
+                end
+                
+                %% Client Relationships
+                Client --> UC1
+                Client --> UC2
+                Client --> UC3
+                Client --> UC4
+                Client --> UC5
+                Client --> UC6
+                Client --> UC7
+                Client --> UC8
+                Client --> UC9
+                Client --> UC10
+                
+                %% Freelancer Relationships
+                Freelancer --> UC11
+                Freelancer --> UC12
+                Freelancer --> UC13
+                Freelancer --> UC14
+                Freelancer --> UC15
+                Freelancer --> UC16
+                Freelancer --> UC17
+                Freelancer --> UC18
+                Freelancer --> UC19
+                Freelancer --> UC20
+                
+                %% Admin Relationships
+                Admin --> UC21
+                Admin --> UC22
+                Admin --> UC23
+                Admin --> UC24
+                Admin --> UC25
+                Admin --> UC26
+                Admin --> UC27
+                Admin --> UC28
+                
+                %% Support Relationships
+                Support --> UC29
+                Support --> UC30
+                Support --> UC31
+                Support --> UC32
+                Support --> UC33
+                Support --> UC34
+                
+                %% Cross-actor relationships
+                UC1 -.-> UC11
+                UC15 -.-> UC3
+                UC8 -.-> UC17
+                UC9 -.-> UC18
+                UC25 -.-> UC29
+                UC32 -.-> UC25
+                
+                %% Styling
+                classDef client fill:#e3f2fd,stroke:#1976d2,stroke-width:2px
+                classDef freelancer fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px
+                classDef admin fill:#e8f5e8,stroke:#388e3c,stroke-width:2px
+                classDef support fill:#fff3e0,stroke:#f57c00,stroke-width:2px
+                
+                class Client client
+                class Freelancer freelancer
+                class Admin admin
+                class Support support
+                
+                class UC1,UC2,UC3,UC4,UC5,UC6,UC7,UC8,UC9,UC10 client
+                class UC11,UC12,UC13,UC14,UC15,UC16,UC17,UC18,UC19,UC20 freelancer
+                class UC21,UC22,UC23,UC24,UC25,UC26,UC27,UC28 admin
+                class UC29,UC30,UC31,UC32,UC33,UC34 support
+        </div>
+        
+        <div class="legend">
+            <h3>👥 Actor Legend</h3>
+            <div class="legend-grid">
+                <div class="legend-item">
+                    <div class="color-box" style="background-color: #e3f2fd;"></div>
+                    <span><strong>Client:</strong> Companies/individuals posting missions</span>
+                </div>
+                <div class="legend-item">
+                    <div class="color-box" style="background-color: #f3e5f5;"></div>
+                    <span><strong>Freelancer:</strong> Independent professionals offering services</span>
+                </div>
+                <div class="legend-item">
+                    <div class="color-box" style="background-color: #e8f5e8;"></div>
+                    <span><strong>Admin:</strong> Platform administrators with full access</span>
+                </div>
+                <div class="legend-item">
+                    <div class="color-box" style="background-color: #fff3e0;"></div>
+                    <span><strong>Support:</strong> Customer service and dispute resolution</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE 2: EXPLANATIONS -->
+    <div class="page">
+        <h1>📋 Use Case Diagram - Detailed Explanations</h1>
+        
+        <h2>🎯 Overview</h2>
+        <p>This Use Case Diagram illustrates the complete functionality of the Freelance Marketplace platform, showing how different user types interact with the system to accomplish their goals. The diagram includes 34 distinct use cases across 4 actor types.</p>
+
+        <div class="use-case-details">
+            <div class="use-case-section">
+                <h3>👤 Client Use Cases (10 use cases)</h3>
+                <div class="use-case-grid">
+                    <div class="use-case-item">
+                        <h4>📝 Create Mission</h4>
+                        <p>Post new projects with detailed requirements, budget, and timeline</p>
+                    </div>
+                    <div class="use-case-item">
+                        <h4>👀 Browse Freelancers</h4>
+                        <p>Search and view freelancer profiles, portfolios, and reviews</p>
+                    </div>
+                    <div class="use-case-item">
+                        <h4>📋 View Contracts</h4>
+                        <p>Access and manage active contracts with freelancers</p>
+                    </div>
+                    <div class="use-case-item">
+                        <h4>💰 Manage Payments</h4>
+                        <p>Process payments, view transaction history, and manage billing</p>
+                    </div>
+                    <div class="use-case-item">
+                        <h4>✏️ Edit Mission</h4>
+                        <p>Update mission details, requirements, or budget</p>
+                    </div>
+                    <div class="use-case-item">
+                        <h4>🗑️ Delete Mission</h4>
+                        <p>Remove missions that are no longer needed</p>
+                    </div>
+                    <div class="use-case-item">
+                        <h4>📊 View Mission Status</h4>
+                        <p>Track progress and status of posted missions</p>
+                    </div>
+                    <div class="use-case-item">
+                        <h4>💬 Send Messages</h4>
+                        <p>Communicate directly with freelancers about projects</p>
+                    </div>
+                    <div class="use-case-item">
+                        <h4>⭐ Leave Reviews</h4>
+                        <p>Provide feedback and ratings for completed work</p>
+                    </div>
+                    <div class="use-case-item">
+                        <h4>📱 Update Profile</h4>
+                        <p>Manage company information and contact details</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="use-case-section">
+                <h3>👨‍💻 Freelancer Use Cases (10 use cases)</h3>
+                <div class="use-case-grid">
+                    <div class="use-case-item">
+                        <h4>🔍 Browse Missions</h4>
+                        <p>Search and filter available projects that match skills</p>
+                    </div>
+                    <div class="use-case-item">
+                        <h4>📄 Create Portfolio</h4>
+                        <p>Showcase previous work and professional achievements</p>
+                    </div>
+                    <div class="use-case-item">
+                        <h4>🛠️ Manage Services</h4>
+                        <p>Define service offerings, pricing, and expertise areas</p>
+                    </div>
+                    <div class="use-case-item">
+                        <h4>🎯 Manage Skills</h4>
+                        <p>Update technical skills and proficiency levels</p>
+                    </div>
+                    <div class="use-case-item">
+                        <h4>📝 Submit Offers</h4>
+                        <p>Propose bids and terms for available missions</p>
+                    </div>
+                    <div class="use-case-item">
+                        <h4>📋 View Contracts</h4>
+                        <p>Access active contracts and project details</p>
+                    </div>
+                    <div class="use-case-item">
+                        <h4>💬 Send Messages</h4>
+                        <p>Communicate with clients about project requirements</p>
+                    </div>
+                    <div class="use-case-item">
+                        <h4>⭐ Leave Reviews</h4>
+                        <p>Provide feedback about client collaboration</p>
+                    </div>
+                    <div class="use-case-item">
+                        <h4>📱 Update Profile</h4>
+                        <p>Manage personal information and professional details</p>
+                    </div>
+                    <div class="use-case-item">
+                        <h4>💰 View Earnings</h4>
+                        <p>Track income, payment history, and financial reports</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="use-case-section">
+                <h3>🔧 Admin Use Cases (8 use cases)</h3>
+                <div class="use-case-grid">
+                    <div class="use-case-item">
+                        <h4>👥 Manage Users</h4>
+                        <p>Create, update, and delete user accounts and roles</p>
+                    </div>
+                    <div class="use-case-item">
+                        <h4>📊 View Analytics</h4>
+                        <p>Access platform statistics and performance metrics</p>
+                    </div>
+                    <div class="use-case-item">
+                        <h4>🔧 System Settings</h4>
+                        <p>Configure platform parameters and system options</p>
+                    </div>
+                    <div class="use-case-item">
+                        <h4>📋 Manage All Contracts</h4>
+                        <p>Oversee all contracts and intervene when necessary</p>
+                    </div>
+                    <div class="use-case-item">
+                        <h4>🚨 Handle Conflicts</h4>
+                        <p>Resolve disputes between clients and freelancers</p>
+                    </div>
+                    <div class="use-case-item">
+                        <h4>💰 Payment Oversight</h4>
+                        <p>Monitor payment processing and financial transactions</p>
+                    </div>
+                    <div class="use-case-item">
+                        <h4>📝 Content Moderation</h4>
+                        <p>Review and approve user-generated content</p>
+                    </div>
+                    <div class="use-case-item">
+                        <h4>🔐 Role Management</h4>
+                        <p>Assign and manage user roles and permissions</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="use-case-section">
+                <h3>🛟 Support Use Cases (6 use cases)</h3>
+                <div class="use-case-grid">
+                    <div class="use-case-item">
+                        <h4>🆘 Handle Disputes</h4>
+                        <p>Assist in resolving conflicts and disagreements</p>
+                    </div>
+                    <div class="use-case-item">
+                        <h4>📞 User Assistance</h4>
+                        <p>Provide help and guidance to platform users</p>
+                    </div>
+                    <div class="use-case-item">
+                        <h4>📋 Contract Support</h4>
+                        <p>Help users understand and manage contracts</p>
+                    </div>
+                    <div class="use-case-item">
+                        <h4>🚨 Conflict Resolution</h4>
+                        <p>Mediate disputes and find fair solutions</p>
+                    </div>
+                    <div class="use-case-item">
+                        <h4>📧 Ticket Management</h4>
+                        <p>Track and manage support requests and tickets</p>
+                    </div>
+                    <div class="use-case-item">
+                        <h4>📊 View Reports</h4>
+                        <p>Access support metrics and performance data</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h2>🔗 Key System Interactions</h2>
+        <div class="feature-list">
+            <ul>
+                <li><strong>Cross-Actor Communication:</strong> Dotted lines show interactions between different user types</li>
+                <li><strong>Role-Based Access:</strong> Each actor type has specific permissions and capabilities</li>
+                <li><strong>Workflow Integration:</strong> Use cases are designed to work together in complete business processes</li>
+                <li><strong>Platform Scalability:</strong> Architecture supports growth and new feature additions</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'default',
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true,
+                curve: 'basis'
+            }
+        });
+    </script>
+</body>
+</html>

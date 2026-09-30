@@ -1,0 +1,2 @@
+-- This migration represents the current state of the database
+-- No changes needed - this is just a baseline marker
